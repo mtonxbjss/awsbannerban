@@ -7,6 +7,7 @@ const selectors = [
   'div[data-testid="account-services-tooltip-popover"]',
   'li.awsui_flash-list-item_1q84n_9srp5_301',
   'li.awsui_flash-list-item_1q84n_n0k4e_301',
+  'li.awsui_flash-list-item_1q84n_9srp5_301',
   'div#aperture-csat-container'
 ];
 
