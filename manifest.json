@@ -5,25 +5,30 @@
   "description": "Hides all blue banners on AWS Console pages",
 
   "icons": {
-    "48": "icons/awsbannernuke-48.png"
+    "48": "icons/bannernuke-default-48.png"
   },
-  
+
   "permissions": ["activeTab", "tabs"],
-  
+
   "background": {
     "scripts": ["background.js"]
   },
-  
+
   "content_scripts": [
     {
-      "matches": ["https://*.console.aws.amazon.com/*"],
+      "matches": [
+        "https://*.console.aws.amazon.com/*",
+        "https://*.awsapps.com/*"
+      ],
       "js": ["content.js"],
       "run_at": "document_idle"
     }
   ],
-  
+
   "browser_action": {
-    "default_icon": "icons/awsbannernuke-32.png",
+    "default_icon": {
+      "32": "icons/bannernuke-default.png"
+    },
     "default_title": "AWS Banner Nuke"
   }
 }

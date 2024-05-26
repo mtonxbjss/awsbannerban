@@ -1,14 +1,30 @@
-browser.runtime.onMessage.addListener(notify);
-
-function notify(message) {
-  switch(message) {
+browser.runtime.onMessage.addListener((request) => {
+  switch (request.nuked) {
+    case "0":
+      browser.browserAction.setIcon({
+        path: { 32: "icons/bannernuke-default.png" },
+      });
+      break;
     case "1":
-      browser.browserAction.setIcon({ path: "icons/awsbannernuke-32-1.png" });
+      browser.browserAction.setIcon({
+        path: { 32: "icons/bannernuke-1.png" },
+      });
+      break;
     case "2":
-      browser.browserAction.setIcon({ path: "icons/awsbannernuke-32-2.png" });
+      browser.browserAction.setIcon({
+        path: { 32: "icons/bannernuke-2.png" },
+      });
+      break;
     case "3":
-      browser.browserAction.setIcon({ path: "icons/awsbannernuke-32-3.png" });
+      browser.browserAction.setIcon({
+        path: { 32: "icons/bannernuke-3.png" },
+      });
+      break;
     default:
-      browser.browserAction.setIcon({ path: "icons/awsbannernuke-32.png" });
+      browser.browserAction.setIcon({
+        path: { 32: "icons/bannernuke-3.png" },
+      });
+      break;
   }
-}
+  console.log(`set icon to ${request.nuked}`);
+});
