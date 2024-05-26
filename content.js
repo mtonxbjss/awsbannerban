@@ -12,14 +12,21 @@ const selectors = [
 ];
 
 function hideDivsWithClass() {
+  let hiddenBanners = 0;
+
   selectors.forEach((sel) => {
     const divs = document.querySelectorAll(sel);
     console.log(divs);
     divs.forEach((div) => {
       div.style.display = "none";
+      hiddenBanners++;
     });
   });
-  console.info("AWS Flash banners hidden");
+
+  console.info(`${hiddenBanners} AWS Flash banners hidden`);
+
+  // Send a message to the background script
+  browser.runtime.sendMessage({message: "1"});
 }
 
 // Hide banners that are visible when the DOM is loaded
