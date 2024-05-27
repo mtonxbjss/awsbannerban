@@ -6,30 +6,35 @@ const selectors = [
   'div[data-itemid="opt_out_banner"]',
   'div[data-testid="bellIcon-tooltip-popover"]',
   'div[data-testid="account-services-tooltip-popover"]',
-  "li.awsui_flash-list-item_1q84n_9srp5_301",
-  "li.awsui_flash-list-item_1q84n_n0k4e_301",
-  "li.awsui_flash-list-item_1q84n_9srp5_301",
-  "li.awsui_flash-list-item_1q84n_1q5xi_301",
-  "li.awsui_flash-type-info_1q84n_1q5xi_913",
-  "div.awsui_flashbar_1q84n_1q5xi_723",
   "div#aperture-csat-container",
+  'div[data-itemid="CisAnnouncement"]',
+  'div[data-itemid="AgentlessAnnouncement"]',
+  'div[data-itemid="PullDateAnnouncement"]',
+  'div[data-itemid="ActivateExistingAccountEc2DeepScanInfo"]'
 ];
 
-function hideDivsWithClass() {
+
+// do not use... used by red error boxes
+// 'div[data-analytics-flashbar="info"]',
+// "li.awsui_flash-list-item_1q84n_1q5xi_301",
+// "div.awsui_flashbar_1q84n_1q5xi_723",
+
+async function hideDivsWithClass() {
   let hiddenBanners = 0;
+  let enabledStatus = await browser.runtime.sendMessage({ get_enabled: true });
 
   selectors.forEach((sel) => {
     const divs = document.querySelectorAll(sel);
-    console.log(divs);
     divs.forEach((div) => {
-      div.style.display = "none";
+      console.info(sel);
+      if (enabledStatus == "enabled") {
+        div.style.display = "none";
+      }
       hiddenBanners++;
     });
   });
-
-  console.info(`${hiddenBanners} AWS Flash banners hidden`);
-
-  // Send a message to the background script
+  
+  console.info(`${hiddenBanners} AWS Flash banners ${enabledStatus == "disabled" ? "would have been" : ""} hidden`);
   browser.runtime.sendMessage({ nuked: hiddenBanners.toString() });
 }
 

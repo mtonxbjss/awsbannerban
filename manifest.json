@@ -8,10 +8,10 @@
     "48": "icons/bannernuke-default-48.png"
   },
 
-  "permissions": ["activeTab", "tabs"],
+  "permissions": ["activeTab", "tabs", "storage"],
 
   "background": {
-    "scripts": ["background.js"]
+    "scripts": ["background/background.js"]
   },
 
   "content_scripts": [
@@ -20,7 +20,7 @@
         "https://*.console.aws.amazon.com/*",
         "https://*.awsapps.com/*"
       ],
-      "js": ["content.js"],
+      "js": ["content/content.js"],
       "run_at": "document_idle"
     }
   ],
@@ -29,6 +29,7 @@
     "default_icon": {
       "32": "icons/bannernuke-default.png"
     },
-    "default_title": "AWS Banner Nuke"
+    "default_title": "AWS Banner Nuke",
+    "default_popup": "popup/options.html"
   }
 }
