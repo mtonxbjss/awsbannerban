@@ -1,5 +1,5 @@
 #!/bin/bash
 
-zip -r  awsbannernuke.xpi manifest.json icons/* popup/* content/* background/*
+zip -r  awsbannerban.xpi manifest.json icons/* popup/* content/* background/*
 
 echo "All done"
