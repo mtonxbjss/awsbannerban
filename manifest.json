@@ -1,6 +1,6 @@
 {
   "manifest_version": 2,
-  "name": "AWS Blue Banner Nuke",
+  "name": "AWS Blue Banner Ban",
   "version": "1.1",
   "description": "Hides all blue banners on AWS Console pages",
 
@@ -29,7 +29,7 @@
     "default_icon": {
       "32": "icons/bannernuke-default.png"
     },
-    "default_title": "AWS Banner Nuke",
+    "default_title": "AWS Banner Ban",
     "default_popup": "popup/options.html"
   }
 }

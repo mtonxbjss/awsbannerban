@@ -1,8 +1,4 @@
-// This const defines all HTML elements that manifest the annoying blue
-// AWS flash messages that appear at the top of the page and the even
-// more annoying popups that appear when hovering over the bell icon.
-
-const selectors = [
+const deleteSelectors = [
   'div[data-itemid="opt_out_banner"]',
   'div[data-testid="bellIcon-tooltip-popover"]',
   'div[data-testid="account-services-tooltip-popover"]',
@@ -10,33 +6,60 @@ const selectors = [
   'div[data-itemid="CisAnnouncement"]',
   'div[data-itemid="AgentlessAnnouncement"]',
   'div[data-itemid="PullDateAnnouncement"]',
-  'div[data-itemid="ActivateExistingAccountEc2DeepScanInfo"]'
+  'div[data-itemid="ActivateExistingAccountEc2DeepScanInfo"]',
+  'div[data-itemid="deeplink-info-flash"]',
+  'div[data-test-id="permanent-notification"]',
 ];
 
+const hideSelectors = [
+  'div.awsui-context-flashbar:not([data-analytics-flashbar="error"])',
+];
 
-// do not use... used by red error boxes
-// 'div[data-analytics-flashbar="info"]',
-// "li.awsui_flash-list-item_1q84n_1q5xi_301",
-// "div.awsui_flashbar_1q84n_1q5xi_723",
+const showSelectors = ['div[data-analytics-flashbar="error"]'];
 
 let hiddenBanners = 0;
 
 async function hideDivsWithClass() {
   let enabledStatus = await browser.runtime.sendMessage({ get_enabled: true });
 
-  selectors.forEach((sel) => {
+  deleteSelectors.forEach((sel) => {
     const divs = document.querySelectorAll(sel);
     divs.forEach((div) => {
-      console.info(sel);
       if (enabledStatus == "enabled") {
-        div.style.display = "none";
+        console.info(`aws banner ban is deleting ${sel}`);
         div.remove();
       }
       hiddenBanners++;
     });
   });
-  
-  console.info(`${hiddenBanners} AWS Flash banners ${enabledStatus == "disabled" ? "would have been" : ""} hidden`);
+
+  hideSelectors.forEach((sel) => {
+    const divs = document.querySelectorAll(sel);
+    divs.forEach((div) => {
+      if (enabledStatus == "enabled") {
+        console.info(`aws banner ban is hiding ${sel}`);
+        div.style.display = "none";
+      }
+      hiddenBanners++;
+    });
+  });
+
+  showSelectors.forEach((sel) => {
+    const divs = document.querySelectorAll(sel);
+    divs.forEach((div) => {
+      if (enabledStatus == "enabled") {
+        console.info(`aws banner ban is showing ${sel}`);
+        div.style.display = "flex";
+      }
+      hiddenBanners--;
+    });
+  });
+
+  console.info(
+    `${hiddenBanners} AWS Flash banners${
+      enabledStatus == "disabled" ? " would have been " : " "
+    }hidden`
+  );
   browser.runtime.sendMessage({ nuked: hiddenBanners.toString() });
 }
 
