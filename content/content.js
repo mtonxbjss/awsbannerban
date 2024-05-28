@@ -19,7 +19,7 @@ const showSelectors = ['div[data-analytics-flashbar="error"]'];
 
 let hiddenBanners = 0;
 
-async function hideDivsWithClass() {
+async function manageBanners() {
   let enabledStatus = await browser.runtime.sendMessage({ get_enabled: true });
 
   deleteSelectors.forEach((sel) => {
@@ -65,16 +65,23 @@ async function hideDivsWithClass() {
 
 // Hide banners that are visible when the DOM is loaded
 document.addEventListener("DOMContentLoaded", function () {
-  hideDivsWithClass();
+  manageBanners();
 });
 
 // Hide banners that are added to the DOM after the page is loaded
 const observer = new MutationObserver((mutations) => {
-  hideDivsWithClass();
+  let hideDivs = false;
+  mutations.forEach((mutation) => {
+    if (mutation.type === "childList") {
+      hideDivs = true;
+    }
+  });
+  if (hideDivs) {
+    manageBanners();
+  }
 });
 
 observer.observe(document.body, {
   childList: true,
   subtree: true,
-  attributes: true,
 });
