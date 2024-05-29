@@ -1,7 +1,5 @@
 const deleteSelectors = [
   'div[data-itemid="opt_out_banner"]',
-  'div[data-testid="bellIcon-tooltip-popover"]',
-  'div[data-testid="account-services-tooltip-popover"]',
   "div#aperture-csat-container",
   'div[data-itemid="CisAnnouncement"]',
   'div[data-itemid="AgentlessAnnouncement"]',
@@ -12,6 +10,8 @@ const deleteSelectors = [
 ];
 
 const hideSelectors = [
+  'div[data-testid="bellIcon-tooltip-popover"]',
+  'div[data-testid="account-services-tooltip-popover"]',
   'div.awsui-context-flashbar:not([data-analytics-flashbar="error"])',
 ];
 
