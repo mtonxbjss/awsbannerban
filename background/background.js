@@ -1,26 +1,30 @@
 browser.runtime.onMessage.addListener(async (message, sender) => {
-  // set enabled status, if requested
-  if (message.set_enabled) {
-    await browser.storage.session.set({ enabled: message.set_enabled });
-    return true;
-  }
-
-  if (message.get_enabled) {
-    // get current enabled status
-    let items = await browser.storage.session.get({ enabled: "enabled" });
-    return items.enabled;
-  }
-
   // get current enabled status
   let items = await browser.storage.session.get({ enabled: "enabled" });
   let bannernuke_enabled = items.enabled;
 
-  // return early if disabled
-  if (!bannernuke_enabled) {
-    return false;
+  if (message.get_enabled) {
+    return bannernuke_enabled;
   }
 
+  // set enabled status, if requested
+  if (message.set_enabled) {
+    await browser.storage.session.set({ enabled: message.set_enabled });
+    icon =
+      message.set_enabled == "enabled"
+        ? "icons/bannernuke-default.png"
+        : "icons/bannernuke-disabled.png";
+    browser.browserAction.setIcon({
+      path: { 32: icon },
+    });
+    return true;
+  }
+
+  console.log("here");
   if (message.nuked) {
+    if (bannernuke_enabled == "disabled") {
+      return false;
+    }
     switch (message.nuked) {
       case "0":
         browser.browserAction.setIcon({
