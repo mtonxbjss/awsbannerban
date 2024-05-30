@@ -20,7 +20,6 @@ browser.runtime.onMessage.addListener(async (message, sender) => {
     return true;
   }
 
-  console.log("here");
   if (message.nuked) {
     if (bannernuke_enabled == "disabled") {
       return false;
