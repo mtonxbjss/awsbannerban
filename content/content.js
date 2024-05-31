@@ -1,3 +1,8 @@
+const ENABLED = "enabled";
+const DISABLED = "disabled";
+const DISPLAY_HIDE = "none";
+const DISPLAY_SHOW = "flex";
+
 const deleteSelectors = [
   'div[data-itemid="opt_out_banner"]',
   "div#aperture-csat-container",
@@ -26,7 +31,7 @@ async function manageBanners() {
   deleteSelectors.forEach((sel) => {
     const divs = document.querySelectorAll(sel);
     divs.forEach((div) => {
-      if (enabledStatus == "enabled") {
+      if (enabledStatus == ENABLED) {
         console.info(`aws banner ban is deleting ${sel}`);
         div.remove();
       }
@@ -37,9 +42,9 @@ async function manageBanners() {
   hideSelectors.forEach((sel) => {
     const divs = document.querySelectorAll(sel);
     divs.forEach((div) => {
-      if (enabledStatus == "enabled") {
+      if (enabledStatus == ENABLED) {
         console.info(`aws banner ban is hiding ${sel}`);
-        div.style.display = "none";
+        div.style.display = DISPLAY_HIDE;
       }
       hiddenBanners++;
     });
@@ -48,9 +53,9 @@ async function manageBanners() {
   showSelectors.forEach((sel) => {
     const divs = document.querySelectorAll(sel);
     divs.forEach((div) => {
-      if (enabledStatus == "enabled") {
+      if (enabledStatus == ENABLED) {
         console.info(`aws banner ban is showing ${sel}`);
-        div.style.display = "flex";
+        div.style.display = DISPLAY_SHOW;
       }
       hiddenBanners--;
     });
@@ -58,7 +63,7 @@ async function manageBanners() {
 
   console.info(
     `${hiddenBanners} AWS Flash banners${
-      enabledStatus == "disabled" ? " would have been " : " "
+      enabledStatus == DISABLED ? " would have been " : " "
     }hidden`
   );
   browser.runtime.sendMessage({ banned: hiddenBanners.toString() });
