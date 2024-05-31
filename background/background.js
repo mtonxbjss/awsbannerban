@@ -1,10 +1,10 @@
 browser.runtime.onMessage.addListener(async (message, sender) => {
   // get current enabled status
   let items = await browser.storage.session.get({ enabled: "enabled" });
-  let bannernuke_enabled = items.enabled;
+  let bannerban_enabled = items.enabled;
 
   if (message.get_enabled) {
-    return bannernuke_enabled;
+    return bannerban_enabled;
   }
 
   // set enabled status, if requested
@@ -12,34 +12,34 @@ browser.runtime.onMessage.addListener(async (message, sender) => {
     await browser.storage.session.set({ enabled: message.set_enabled });
     icon =
       message.set_enabled == "enabled"
-        ? "icons/bannernuke-default.png"
-        : "icons/bannernuke-disabled.png";
+        ? "icons/bannerban-default.png"
+        : "icons/bannerban-disabled.png";
     browser.browserAction.setIcon({
       path: { 32: icon },
     });
     return true;
   }
 
-  if (message.nuked) {
-    if (bannernuke_enabled == "disabled") {
+  if (message.banned) {
+    if (bannerban_enabled == "disabled") {
       return false;
     }
-    switch (message.nuked) {
+    switch (message.banned) {
       case "0":
         browser.browserAction.setIcon({
-          path: { 32: "icons/bannernuke-default.png" },
+          path: { 32: "icons/bannerban-default.png" },
         });
         break;
       case "1":
       case "2":
       case "3":
         browser.browserAction.setIcon({
-          path: { 32: `icons/bannernuke-${message.nuked}.png` },
+          path: { 32: `icons/bannerban-${message.banned}.png` },
         });
         break;
       default:
         browser.browserAction.setIcon({
-          path: { 32: "icons/bannernuke-3.png" },
+          path: { 32: "icons/bannerban-3.png" },
         });
         break;
     }

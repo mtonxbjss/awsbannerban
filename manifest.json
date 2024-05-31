@@ -5,7 +5,7 @@
   "description": "Hides all blue banners on AWS Console pages",
 
   "icons": {
-    "48": "icons/bannernuke-default-48.png"
+    "48": "icons/bannerban-default-48.png"
   },
 
   "permissions": ["activeTab", "tabs", "storage"],
@@ -27,7 +27,7 @@
 
   "browser_action": {
     "default_icon": {
-      "32": "icons/bannernuke-default.png"
+      "32": "icons/bannerban-default.png"
     },
     "default_title": "AWS Banner Ban",
     "default_popup": "popup/options.html"

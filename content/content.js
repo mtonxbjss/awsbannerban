@@ -7,6 +7,7 @@ const deleteSelectors = [
   'div[data-itemid="ActivateExistingAccountEc2DeepScanInfo"]',
   'div[data-itemid="deeplink-info-flash"]',
   'div[data-test-id="permanent-notification"]',
+  "div.awsui-context-alert",
 ];
 
 const hideSelectors = [
@@ -60,7 +61,7 @@ async function manageBanners() {
       enabledStatus == "disabled" ? " would have been " : " "
     }hidden`
   );
-  browser.runtime.sendMessage({ nuked: hiddenBanners.toString() });
+  browser.runtime.sendMessage({ banned: hiddenBanners.toString() });
 }
 
 // Hide banners that are visible when the DOM is loaded
@@ -69,7 +70,7 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 
 // Hide banners that are added to the DOM after the page is loaded
-const observer = new MutationObserver((mutations) => {
+const observer = new MutationObserver(async (mutations) => {
   let hideDivs = false;
   mutations.forEach((mutation) => {
     if (mutation.type === "childList") {
@@ -77,7 +78,7 @@ const observer = new MutationObserver((mutations) => {
     }
   });
   if (hideDivs) {
-    manageBanners();
+    await manageBanners();
   }
 });
 
