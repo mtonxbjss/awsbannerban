@@ -3,6 +3,7 @@ browser.runtime.onMessage.addListener(async (message, sender) => {
   let items = await browser.storage.session.get({ enabled: "enabled" });
   let bannerban_enabled = items.enabled;
 
+  // return enabled status, if requested
   if (message.get_enabled) {
     return bannerban_enabled;
   }
@@ -20,28 +21,19 @@ browser.runtime.onMessage.addListener(async (message, sender) => {
     return true;
   }
 
+  // update the extension icon in response to banned banners
   if (message.banned) {
     if (bannerban_enabled == "disabled") {
       return false;
+    } else if (message.banned == "0") {
+      browser.browserAction.setIcon({
+        path: { 32: "icons/bannerban-default.png" },
+      });
+    } else {
+      browser.browserAction.setIcon({
+        path: { 32: `icons/bannerban-${Math.min(message.banned, 3)}.png` },
+      });
     }
-    switch (message.banned) {
-      case "0":
-        browser.browserAction.setIcon({
-          path: { 32: "icons/bannerban-default.png" },
-        });
-        break;
-      case "1":
-      case "2":
-      case "3":
-        browser.browserAction.setIcon({
-          path: { 32: `icons/bannerban-${message.banned}.png` },
-        });
-        break;
-      default:
-        browser.browserAction.setIcon({
-          path: { 32: "icons/bannerban-3.png" },
-        });
-        break;
-    }
+    return true;
   }
 });
