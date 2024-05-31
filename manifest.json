@@ -1,8 +1,11 @@
 {
   "manifest_version": 2,
-  "name": "AWS Blue Banner Ban",
+  "name": "AWS Banner Ban",
   "version": "1.1",
+  "version_name": "1.1-dev",
   "description": "Hides all blue banners on AWS Console pages",
+  "author": "Mark Tonks",
+  "homepage_url": "https://github.com/mtonxbjss/awsbannerban",
 
   "icons": {
     "48": "icons/bannerban-default-48.png"
