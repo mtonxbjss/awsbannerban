@@ -1,6 +1,6 @@
 browser.runtime.onMessage.addListener(async (message, sender) => {
   // get current enabled status
-  let items = await browser.storage.session.get({ enabled: "enabled" });
+  let items = await browser.storage.local.get({ enabled: "enabled" });
   let bannerban_enabled = items.enabled;
 
   // return enabled status, if requested
@@ -10,7 +10,7 @@ browser.runtime.onMessage.addListener(async (message, sender) => {
 
   // set enabled status, if requested
   if (message.set_enabled) {
-    await browser.storage.session.set({ enabled: message.set_enabled });
+    await browser.storage.local.set({ enabled: message.set_enabled });
     icon =
       message.set_enabled == "enabled"
         ? "icons/bannerban-default.png"
